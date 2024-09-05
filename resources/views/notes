@@ -1,0 +1,37 @@
+
+-- PENGELUARAN PERBULAN
+SELECT
+pembelian_detail.id,
+pembelian.waktu,
+barang.nama_barang,
+barang.harga_awal,
+SUM(pembelian_detail.qty) as barangMasuk,
+(SUM(pembelian_detail.qty) * barang.harga_awal) AS pengeluaran
+
+	FROM `pembelian`
+    INNER JOIN pembelian_detail ON pembelian.no_pembelian = pembelian_detail.no_pembelian
+    INNER JOIN barang ON barang.id_barang = pembelian_detail.id_barang
+    WHERE
+     month(pembelian.waktu) = 7 AND year(pembelian.waktu) = 2020
+    GROUP BY 
+    pembelian_detail.id;
+
+    GROUP BY 
+    pembelian_detail.id_barang;
+
+-- PEMASUKAN PERBULAN
+SELECT 
+penjualan.waktu,
+barang.nama_barang,
+barang.harga_jual,
+SUM(penjualan_detail.qty) as barangTerjual,
+(SUM(penjualan_detail.qty) * barang.harga_jual) AS pemasukan
+
+	FROM `penjualan`
+    INNER JOIN penjualan_detail ON penjualan.no_penjualan = penjualan_detail.no_penjualan
+    INNER JOIN barang ON barang.id_barang = penjualan_detail.id_barang
+    WHERE
+    month(penjualan.waktu) = 11 AND year(penjualan.waktu) = 2023
+    
+    GROUP BY 
+    penjualan_detail.id_barang;
